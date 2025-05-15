@@ -1,6 +1,6 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 
 import { NavbarComponent } from '@/shared/components/navbar/navbar.component';
@@ -42,6 +42,7 @@ export class HomePageComponent {
       tap(pokeList => this.handleLoadingImages(pokeList)),
       catchError(() => {
         this.hasError.set(true)
+        console.log("🚀 ~ HomePageComponent ~ catchError ~ this.hasError:", this.hasError)
         return of([])
       }),
     ),
