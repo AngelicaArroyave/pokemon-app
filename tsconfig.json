@@ -3,6 +3,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/app/*"],
+      "@interfaces/*": ["src/app/pokemon/interfaces/*"],
+      "@components/*": ["src/app/pokemon/components/*"],
+      "@services/*": ["src/app/pokemon/services/*"],
+      "@shared/*": ["src/app/shared/*"],
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,

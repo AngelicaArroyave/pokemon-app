@@ -1,0 +1,12 @@
+<!-- <div class="join flex justify-center items-center">
+  @for (page of getPagesList(); track page) {
+    <button class="join-item btn" [class.btn-primary]="page === activePage()"
+    [routerLink]="[]" (click)="activePage.set(page)">{{ page }}</button>
+  }
+</div> -->
+
+<div class="join">
+  <button class="join-item btn" (click)="addPage()" [disabled]="currentPage() === 1">«</button>
+  <button class="join-item btn">Page {{ currentPage() }}</button>
+  <button class="join-item btn" (click)="addPage('add')" [disabled]="currentPage() === pages">»</button>
+</div>

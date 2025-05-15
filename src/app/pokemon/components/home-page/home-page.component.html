@@ -1,0 +1,52 @@
+<shared-navbar />
+
+<shared-search (newPokemonList)="updatePokemonList($event)" />
+
+
+@if (searchQuery().trim() || hasError()) {
+  <div class="flex justify-center mt-10 mb-5">
+    <div role="alert" class="alert alert-warning alert-dash">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor"
+          d="M12 6v8.5m0 1.5v2M7.444 1s1.774.25 4.556.25S16.556 1 16.556 1s1.078 1.431 3.045 3.399C21.57 6.366 23 7.444 23 7.444s-.25 1.774-.25 4.556s.25 4.556.25 4.556s-1.431 1.078-3.399 3.045C17.634 21.57 16.556 23 16.556 23s-1.774-.25-4.556-.25s-4.556.25-4.556.25s-1.078-1.431-3.045-3.399C2.43 17.634 1 16.556 1 16.556s.25-1.774.25-4.556S1 7.444 1 7.444s1.431-1.078 3.399-3.045C6.366 2.43 7.444 1 7.444 1Z"
+          stroke-width="1" />
+      </svg>
+      <p class="font-montserrat text-xl">
+        The Pokemon could not be loaded. Please check the name
+        <span class="text-accent">{{ searchQuery() | uppercase }}</span>
+      </p>
+      <div class="text-center my-4">
+        <button (click)="resetSearch()" class="btn btn-accent hover:btn-warning">Show all Pokemon</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (!hasError()) {
+  <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 mt-6 ml-20 mr-20">
+    @for (pokemon of pokemonList(); track pokemon.name) {
+    <div class="avatar flex flex-col items-center rounded-2xl p-4 text-center bg-gray-700 cursor-pointer">
+      <div class="w-32 h-32 relative flex items-center justify-center">
+        @if (loadingImages.has(pokemon.name)) {
+        <span
+          class="loading loading-ring loading-xl text-accent absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
+        }
+        <img [src]="pokemon.image" [alt]="pokemon.name" class="max-h-full max-w-full object-contain"
+          (load)="onImageLoad(pokemon.name)" />
+      </div>
+      <p class="text-accent m-2 font-montserrat hover:text-secondary">{{ pokemon.name | titlecase }}</p>
+    </div>
+    }
+  </div>
+}
+
+<div class="flex justify-center mt-10 mb-5">
+  @if (!pokemonList()) {
+    <span class="loading loading-ring loading-xl text-accent"></span>
+    <p class="text-accent font-montserrat text-2xl">Loading...</p>
+  }
+
+  @else if (pokemonList().length > 1) {
+    <shared-pagination [currentPage]="currentPage()" (newCurrentPage)="updatePage($event)" />
+  }
+</div>
