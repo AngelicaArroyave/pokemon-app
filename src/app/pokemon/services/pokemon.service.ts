@@ -18,7 +18,7 @@ export class PokemonService {
   getPokemonList(page: number, options?: any): Observable<any> {
     const { limit = 16, offset = (page - 1) * limit } = options || {}
 
-    return this.http.get<any>(`${URL}/pokemon`, {
+    return this.http.get<any>(`${URL}`, {
       params: { limit, offset }
     }).pipe(
       switchMap((response: OptionsResponse) => {
@@ -31,7 +31,7 @@ export class PokemonService {
   }
 
   getPokemonByName(name: string): Observable<PokemonResponse> {
-    return this.http.get<PokemonResponse>(`${URL}/pokemon/${name}`)
+    return this.http.get<PokemonResponse>(`${URL}/${name}`)
   }
 
   getPokemonImage(url: string): Observable<any> {

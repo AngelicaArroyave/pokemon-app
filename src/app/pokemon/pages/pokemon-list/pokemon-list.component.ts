@@ -1,5 +1,6 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 import { PokemonService } from '@/pokemon/services/pokemon.service';
 import { PokemonResponse } from '@/pokemon/interfaces/pokemon.interface';
@@ -7,7 +8,10 @@ import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'pages-pokemon-list',
-  imports: [TitleCasePipe],
+  imports: [
+    RouterLink,
+    TitleCasePipe
+  ],
   templateUrl: './pokemon-list.component.html'
 })
 export class PokemonListComponent {
