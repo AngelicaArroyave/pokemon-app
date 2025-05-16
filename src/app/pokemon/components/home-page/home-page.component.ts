@@ -1,21 +1,26 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { TitleCasePipe } from '@angular/common';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 
+import { AlertComponent } from '@/shared/components/alert/alert.component';
 import { NavbarComponent } from '@/shared/components/navbar/navbar.component';
 import { PaginationComponent } from '@/shared/components/pagination/pagination.component';
+import { PokemonListComponent } from '@/pokemon/pages/pokemon-list/pokemon-list.component';
 import { PokemonService } from '@/pokemon/services/pokemon.service';
 import { SearchComponent } from '@/shared/components/search/search.component';
+import { ShowAllPokemonComponent } from '@/shared/components/show-all-pokemon/show-all-pokemon.component';
 
 @Component({
   selector: 'home-page',
   imports: [
+    AlertComponent,
     NavbarComponent,
     PaginationComponent,
+    PokemonListComponent,
     SearchComponent,
-    TitleCasePipe,
-    UpperCasePipe
+    ShowAllPokemonComponent,
+    TitleCasePipe
 ],
   templateUrl: './home-page.component.html',
 })
@@ -25,6 +30,7 @@ export class HomePageComponent {
   currentPage = signal(1)
   searchQuery = signal('')
   hasError = signal(false)
+  pokemonName = signal('')
 
   loadingImages = new Set<string>()
 
@@ -42,7 +48,6 @@ export class HomePageComponent {
       tap(pokeList => this.handleLoadingImages(pokeList)),
       catchError(() => {
         this.hasError.set(true)
-        console.log("🚀 ~ HomePageComponent ~ catchError ~ this.hasError:", this.hasError)
         return of([])
       }),
     ),
@@ -52,21 +57,5 @@ export class HomePageComponent {
   handleLoadingImages(pokeList: any[]) {
     this.loadingImages.clear()
     pokeList.forEach(pokemon => this.loadingImages.add(pokemon.name))
-  }
-
-  updatePokemonList(query: string) {
-    this.searchQuery.set(query)
-  }
-
-  onImageLoad(name: string) {
-    this.loadingImages.delete(name)
-  }
-
-  updatePage(page: number) {
-    this.currentPage.set(page)
-  }
-
-  resetSearch() {
-    window.location.reload();
   }
 }

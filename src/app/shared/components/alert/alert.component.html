@@ -1,0 +1,14 @@
+<div role="alert" class="alert alert-warning alert-dash flex flex-col items-center sm:flex-row sm:items-center sm:justify-center gap-4 m-10 p-5">
+    <div class="flex items-center text-center sm:text-left">
+      <svg class="mr-4 flex-shrink-0 flex items-center justify-center" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24">
+        <path fill="none" stroke="currentColor"
+          d="M12 6v8.5m0 1.5v2M7.444 1s1.774.25 4.556.25S16.556 1 16.556 1s1.078 1.431 3.045 3.399C21.57 6.366 23 7.444 23 7.444s-.25 1.774-.25 4.556s.25 4.556.25 4.556s-1.431 1.078-3.399 3.045C17.634 21.57 16.556 23 16.556 23s-1.774-.25-4.556-.25s-4.556.25-4.556.25s-1.078-1.431-3.045-3.399C2.43 17.634 1 16.556 1 16.556s.25-1.774.25-4.556S1 7.444 1 7.444s1.431-1.078 3.399-3.045C6.366 2.43 7.444 1 7.444 1Z"
+          stroke-width="1" />
+      </svg>
+      <p class="font-montserrat text-xl text-left">
+        The Pokemon could not be loaded. Please check the name
+        <span class="text-accent">{{ searchQuery() | uppercase }}</span>
+      </p>
+    </div>
+    <shared-show-all-pokemon [style]="'text-center my-4'" />
+  </div>
