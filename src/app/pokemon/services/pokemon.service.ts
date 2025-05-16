@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, switchMap } from 'rxjs';
 
+import { environment } from '@/environments/environment.development';
 import { OptionsResponse, PokemonResponse } from '../interfaces/pokemon.interface';
+
+const URL = environment.baseUrl
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,7 @@ export class PokemonService {
   getPokemonList(page: number, options?: any): Observable<any> {
     const { limit = 16, offset = (page - 1) * limit } = options || {}
 
-    return this.http.get<any>('https://pokeapi.co/api/v2/pokemon', {
+    return this.http.get<any>(`${URL}`, {
       params: { limit, offset }
     }).pipe(
       switchMap((response: OptionsResponse) => {
@@ -28,7 +31,7 @@ export class PokemonService {
   }
 
   getPokemonByName(name: string): Observable<PokemonResponse> {
-    return this.http.get<PokemonResponse>(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    return this.http.get<PokemonResponse>(`${URL}/${name}`)
   }
 
   getPokemonImage(url: string): Observable<any> {
@@ -41,11 +44,11 @@ export class PokemonService {
   }
 
   getNameAndUrl(name: string): Observable<any> {
-    return this.getPokemonImage(`https://pokeapi.co/api/v2/pokemon/${name}`).pipe(
+    return this.getPokemonByName(name).pipe(
       map(details => ({
         name: details.name,
         image: details.sprites.front_default
-      })),
+      }))
     )
   }
 }
